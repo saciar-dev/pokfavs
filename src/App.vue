@@ -1,0 +1,28 @@
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
+
+<template>
+  <nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <router-link class="navbar-brand" to="/">
+      <img src="@/assets/poke_ball_icon.svg" alt="Logo" width="100" height="32" class="d-inline-block align-text-top">
+      PokeFavs
+    </router-link>
+    <div>
+      <RouterLink class="btn btn-outline-primary me-2" to="/">Home</RouterLink>
+      <RouterLink class="btn btn-outline-primary me-2" to="/pokemons">Pokemones</RouterLink>
+      <RouterLink class="btn btn-outline-primary" to="/favoritos">Favoritos</RouterLink>
+  </div>
+  </div>
+</nav>
+
+  <div class="text-center">
+    <RouterView />
+  </div>
+  
+</template>
+
+<style>
+
+</style>
