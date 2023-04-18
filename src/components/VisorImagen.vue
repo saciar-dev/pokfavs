@@ -1,15 +1,14 @@
 <script setup>
     import { useFavoritosStore } from '../store/favoritos';
-import VisorAbilidades from './VisorAbilidades.vue';
+    import VisorAbilidades from './VisorAbilidades.vue';
+import VisorCaracteristicas from './VisorCaracteristicas.vue';
+import VisorStats from './VisorStats.vue';
 
     const useFavoritos = useFavoritosStore();
     //destructurando el store
     const {addFavorito, findByName} = useFavoritos;
 
     const props = defineProps(['datos']);
-
-    // console.log(props.datos.abilities[0].ability);
-
 </script>
 
 <template>
@@ -29,46 +28,20 @@ import VisorAbilidades from './VisorAbilidades.vue';
                             </VisorAbilidades>
                         </div>
                         
-                        <button :disabled="findByName(datos.name)" class="btn btn-primary me-2" @click="addFavorito(datos)">Agregar a Favoritos</button>
+                        <button :disabled="findByName(datos.name)" class="btn btn-primary me-2" @click="addFavorito(datos)">Add to Favorites ❤</button>
                     </div>
                 </div>
                 <div class="col-md-2 ">
-                    <table class="table table-striped ">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Weight
-                                </td>
-                                <td>
-                                    {{ datos.weight/ 10  }} Kgs.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Height
-                                </td>
-                                <td>
-                                    {{ datos.height / 10 }} Mts.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>                     
+                    <VisorCaracteristicas 
+                        :peso="datos.weight"
+                        :altura="datos.weight"
+                        :tipos="datos.types">
+                    </VisorCaracteristicas>                                               
                 </div>
             </div>
-            <div class="row">
-                <table class="table table-sm">
-                        <tbody>
-                            <tr v-for="stat in datos.stats">
-                                <td class="text-capitalize text-start">
-                                    {{ stat.stat.name  }}
-                                </td>
-                                <td>
-                                    {{ stat.base_stat  }} 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </div>
+            <VisorStats
+                :stats = datos.stats>
+            </VisorStats>
         </div>
     </div>
 </template>

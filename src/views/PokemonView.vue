@@ -19,11 +19,15 @@
 <template>
     <p v-if="loading">Cargando informacion...</p>
     <div class="alert alert-danger mt-2" v-if="error"> {{ error }}</div>
-    <div v-if="data" class="container-fluid ">
+    <div v-if="data" class="container-fluid ">       
         <VisorImagen
             :datos="data">
         </VisorImagen>
+        <div class="row justify-content-end">
+            <div class="col-2"><button @click="back" class="btn btn-danger">volver</button></div>
+            
+        </div>
     </div>
-    <button @click="back" class="btn btn-danger">volver</button>
+    
     
 </template>
