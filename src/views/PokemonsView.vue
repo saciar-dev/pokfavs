@@ -1,40 +1,57 @@
 
 <script setup>
     import {useGetData} from '@/composables/getData';
-    import {RouterLink} from 'vue-router';
+import { ref } from 'vue';
+    import {RouterLink, useRouter} from 'vue-router';
 
     const {data, getData, loading, error} = useGetData();
 
     getData('https://pokeapi.co/api/v2/pokemon');
+
+    const router = useRouter();
+
+    function goTo(poke){
+        router.push(`/pokemons/${poke}`);
+    }
 </script>
 
 <template>
-    <p v-if="loading">Cargando informacion...</p>    
+    <p v-if="loading">Cargando informacion...</p>
     <div class="alert alert-danger mt-2" v-if="error"> {{ error }}</div>
     <div v-if="data" class="container-fluid ">
-        <p class="display-3">Pokemones</p>    
-        <ul class="list-group">
-            <li v-for="pokemon in data.results" class="list-group-item">
-                <router-link :to="`/pokemons/${pokemon.name}`">
-                    {{ pokemon.name }}
-                </router-link>
-            </li>
-        </ul>
-        <div class="mt-2">
-            <button 
-            :disabled="!data.previous" 
-            class="btn btn-primary me-2" 
-            @click="getData(data.previous)"> Anteriores
-        </button>
-        <button 
-            :disabled="!data.next" 
-            class="btn btn-primary me-2" 
-            @click="getData(data.next)"> Siguientes
-        </button>
+        <p class="display-3">Pokemons</p>
+        <div class="row justify-content-center ">
+            <div class="col-9">
+                <div class="row mb-4 display-6">Search</div>
+                <div class="row g-3 align-items-center border mb-4 pb-4 rounded-top ">
+                    <div class="col-auto">
+                        <label for="inputNombre" class="col-form-label">For name or Id</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputNombre" class="form-control" aria-labelledby="passwordHelpInline" v-model="filtro">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-success " @click="goTo(filtro)">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <ul class="list-group list-group-flush ">
+                    <li v-for="pokemon in data.results" class="list-group-item ">
+                        <router-link :to="`/pokemons/${pokemon.name}`">
+                            {{ pokemon.name }}
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-2">
+                <button :disabled="!data.previous" class="btn btn-primary me-2" @click="getData(data.previous)"> Anteriores
+                </button>
+                <button :disabled="!data.next" class="btn btn-primary me-2" @click="getData(data.next)"> Siguientes
+                </button>
+            </div>
         </div>
     </div>
 </template>
-
-<style>
-
-</style>
