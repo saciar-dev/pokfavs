@@ -57,9 +57,9 @@
                 </ul>
             </div>
             <div class="mt-2">
-                <button :disabled="!data.previous" class="btn btn-primary me-2" @click="paginar(data.previous)"> Anteriores
+                <button :disabled="!data.previous" class="btn btn-dark me-2" @click="paginar(data.previous)"> Anteriores
                 </button>
-                <button :disabled="!data.next" class="btn btn-primary me-2" @click="paginar(data.next)"> Siguientes
+                <button :disabled="!data.next" class="btn btn-dark me-2" @click="paginar(data.next)"> Siguientes
                 </button>
             </div>
         </div>
