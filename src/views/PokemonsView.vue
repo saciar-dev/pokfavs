@@ -1,17 +1,27 @@
 
 <script setup>
     import {useGetData} from '@/composables/getData';
-import { ref } from 'vue';
+    import {usePaginacionStore} from '../store/paginacion.js';
     import {RouterLink, useRouter} from 'vue-router';
+
+    const usePaginacion = usePaginacionStore();
+    const {paginaActual, setPaginaActual, setHome} = usePaginacion;
 
     const {data, getData, loading, error} = useGetData();
 
-    getData('https://pokeapi.co/api/v2/pokemon');
+    if(paginaActual)
+        getData(paginaActual)
+    else getData('https://pokeapi.co/api/v2/pokemon');
 
     const router = useRouter();
 
     function goTo(poke){
         router.push(`/pokemons/${poke}`);
+    }
+
+    function paginar(url){
+        getData(url);
+        setPaginaActual(url);
     }
 </script>
 
@@ -40,16 +50,16 @@ import { ref } from 'vue';
             <div class="col-9">
                 <ul class="list-group list-group-flush ">
                     <li v-for="pokemon in data.results" class="list-group-item ">
-                        <router-link :to="`/pokemons/${pokemon.name}`">
+                        <router-link class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover me-2" :to="`/pokemons/${pokemon.name}`">
                             {{ pokemon.name }}
                         </router-link>
                     </li>
                 </ul>
             </div>
             <div class="mt-2">
-                <button :disabled="!data.previous" class="btn btn-primary me-2" @click="getData(data.previous)"> Anteriores
+                <button :disabled="!data.previous" class="btn btn-primary me-2" @click="paginar(data.previous)"> Anteriores
                 </button>
-                <button :disabled="!data.next" class="btn btn-primary me-2" @click="getData(data.next)"> Siguientes
+                <button :disabled="!data.next" class="btn btn-primary me-2" @click="paginar(data.next)"> Siguientes
                 </button>
             </div>
         </div>

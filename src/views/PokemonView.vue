@@ -7,6 +7,7 @@
     const router = useRouter();
     const back = () => {
         router.push("/pokemons");
+        
     }
 
     const { data, getData, loading, error } = useGetData();
